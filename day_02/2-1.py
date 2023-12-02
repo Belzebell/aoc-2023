@@ -11,8 +11,8 @@ for line in file:
     game_id, rounds = line.split(': ', 1)  # split by colon to get game ID part and round part
     game_id = game_id.split(' ', 1)[1]  # split "Game X" by  space and get second half to have actual ID
     max_counts = {'blue': 0, 'red': 0, 'green': 0}  # initialise all as 0 for rounds where one colour doesn't appear at all
-    for round in rounds.split('; '):
-        for dice in round.split(', '):
+    for game_round in rounds.split('; '):
+        for dice in game_round.split(', '):
             count, colour = dice.split(' ')  # split dice into colour and count
             if int(count) > max_counts[colour]:
                 max_counts[colour] = int(count)  # if this is the biggest count of the colour, set it

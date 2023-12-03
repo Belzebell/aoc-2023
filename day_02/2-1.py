@@ -3,8 +3,8 @@ file = open('input.txt', 'r')
 result = 0
 allowed_values = {'red': 12, 'green': 13, 'blue': 14}
 
-# loop through input, for every line get list of digits using regex,
-# then concat the first and last, cast to int and add to the result
+# loop through input, split into game ID and rounds
+# then for every round get max dice count per colour
 for line in file:
     line = line.strip()
     possible = True  # assume the game is possible until proven it is not

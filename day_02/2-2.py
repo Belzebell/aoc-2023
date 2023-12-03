@@ -2,8 +2,8 @@
 file = open('input.txt', 'r')
 result = 0
 
-# loop through input, for every line get list of digits using regex,
-# then concat the first and last, cast to int and add to the result
+# loop through input, split into game ID and rounds
+# then for every round get max dice count per colour
 for line in file:
     line = line.strip()
     game_id, rounds = line.split(': ', 1)  # split by colon to get game ID part and round part
@@ -20,4 +20,4 @@ for line in file:
 
 file.close()  # we are done reading the file
 
-print("The sum of possible Game IDs is", result)
+print("The product of possible Game IDs is", result)

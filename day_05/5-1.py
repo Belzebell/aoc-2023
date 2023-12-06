@@ -3,21 +3,27 @@ file = open('input.txt', 'r')
 seeds = []
 map_name = ''
 mapper = {
-    'seed-to-soil': {},
-    'soil-to-fertilizer': {},
-    'fertilizer-to-water': {},
-    'water-to-light': {},
-    'light-to-temperature': {},
-    'temperature-to-humidity': {},
-    'humidity-to-location': {},
+    'seed-to-soil': [],
+    'soil-to-fertilizer': [],
+    'fertilizer-to-water': [],
+    'water-to-light': [],
+    'light-to-temperature': [],
+    'temperature-to-humidity': [],
+    'humidity-to-location': [],
 }
 
 def getLocationForSeed(seed):
 
     # we can just loop through as the mapper already has correct order of maps
+    # if our seed falls between source and its offset, find the difference and map it to the destination
+    # if it does not fall between, the value should stay the same for the next map
     for key in mapper:
-        if seed in mapper[key]:
-            seed = mapper[key][seed]
+        for map_part in mapper[key]:
+            dest, source, offset = map_part  # unpack the map part
+            if seed >= source and seed < (source + offset):
+                diff = seed - source
+                seed = dest + diff
+                break
     return seed  # seed is now location
 
 # loop through input, grab seed numbers and populate map dicts
@@ -34,12 +40,10 @@ for line_no, line in enumerate(file):
     if 'map:' in line:
         map_name = line.split(' ')[0]
     elif not line == '':
-        # now we have a map line, and need to populate the map for the length of the offset
+        # now we have a map line
+        # populating the array would become to big with the real input, so we only store the maps and calculate later
         dest, source, offset = line.split(' ')
-        i = 0
-        while i < int(offset):
-            mapper[map_name][int(source) + i] = int(dest) + i
-            i = i + 1
+        mapper[map_name].append([int(dest), int(source), int(offset)])
 
 file.close()  # we are done reading the file
 
